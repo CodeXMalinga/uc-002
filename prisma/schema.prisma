@@ -1,0 +1,41 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id          String    @id @default(cuid())
+  email       String    @unique
+  name        String?
+  createdAt   DateTime  @default(now())
+  orders      Order[]
+  clerkId     String    @unique  // Add this for Clerk integration
+}
+
+model Order {
+  id          String    @id @default(cuid())
+  status      String    @default("pending")
+  trackingNumber String? // Added for delivery tracking
+  productId   String
+  userId      String
+  user        User      @relation(fields: [userId], references: [id])
+  product     Product   @relation(fields: [productId], references: [id])
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  estimatedDelivery DateTime?
+}
+
+model Product {
+  id          String    @id @default(cuid())
+  name        String
+  price       Float
+  description String?
+  imageUrl    String?
+  orders      Order[]
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
