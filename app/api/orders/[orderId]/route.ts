@@ -1,10 +1,17 @@
-import { NextResponse } from 'next/server'
+import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
 import { auth } from '@clerk/nextjs/server'
 
+// Define a reusable type for params
+type RouteParams = {
+  params: {
+    orderId: string;
+  };
+};
+
 export async function PATCH(
-  req: Request,
-  { params }: { params: { orderId: string } }
+  req: NextRequest, // Use NextRequest instead of Request
+  { params }: RouteParams
 ) {
   try {
     const { userId } = await auth()
@@ -33,8 +40,8 @@ export async function PATCH(
 }
 
 export async function DELETE(
-  request: Request,
-  { params }: { params: { orderId: string } }
+  req: NextRequest, // Use NextRequest instead of Request
+  { params }: RouteParams
 ) {
   try {
     const { userId } = await auth()
