@@ -33,7 +33,7 @@ export async function PATCH(
 }
 
 export async function DELETE(
-  req: Request,
+  request: Request,
   { params }: { params: { orderId: string } }
 ) {
   try {
