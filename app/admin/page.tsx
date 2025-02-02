@@ -5,13 +5,31 @@ import { prisma } from "@/lib/prisma"
 export default async function AdminPage() {
   const orders = await prisma.order.findMany({
     include: {
-      product: true,
       user: true,
+      orderItems: {
+        include: {
+          product: true
+        }
+      }
     },
     orderBy: {
       createdAt: 'desc',
     },
   })
+
+  // Transform the data to match the columns structure
+  const transformedOrders = orders.map(order => ({
+    id: order.id,
+    status: order.status,
+    createdAt: order.createdAt,
+    totalAmount: order.totalAmount,
+    user: {
+      name: order.user.name,
+      email: order.user.email
+    },
+    // Get the first product name if there are multiple items
+    productName: order.orderItems[0]?.product.name || 'N/A'
+  }))
 
   return (
     <div className="flex-col">
@@ -19,7 +37,7 @@ export default async function AdminPage() {
         <div className="flex items-center justify-between space-y-2">
           <h2 className="text-3xl font-bold tracking-tight">Orders</h2>
         </div>
-        <DataTable columns={columns} data={orders} />
+        <DataTable columns={columns} data={transformedOrders} />
       </div>
     </div>
   )

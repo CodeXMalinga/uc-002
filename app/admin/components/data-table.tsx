@@ -26,11 +26,15 @@ import { useState } from "react"
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
   data: TData[]
+  searchKey?: string
+  onRowClick?: (row: TData) => void
 }
 
 export function DataTable<TData, TValue>({
   columns,
   data,
+  searchKey,
+  onRowClick,
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = useState<SortingState>([])
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
@@ -54,10 +58,10 @@ export function DataTable<TData, TValue>({
     <div>
       <div className="flex items-center py-4">
         <Input
-          placeholder="Filter by tracking number..."
-          value={(table.getColumn("trackingNumber")?.getFilterValue() as string) ?? ""}
+          placeholder="Filter by order ID..."
+          value={(table.getColumn(searchKey ?? "id")?.getFilterValue() as string) ?? ""}
           onChange={(event) =>
-            table.getColumn("trackingNumber")?.setFilterValue(event.target.value)
+            table.getColumn(searchKey ?? "id")?.setFilterValue(event.target.value)
           }
           className="max-w-sm"
         />
@@ -88,6 +92,7 @@ export function DataTable<TData, TValue>({
                 <TableRow
                   key={row.id}
                   data-state={row.getIsSelected() && "selected"}
+                  onClick={() => onRowClick?.(row.original)}
                 >
                   {row.getVisibleCells().map((cell) => (
                     <TableCell key={cell.id}>

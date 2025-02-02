@@ -8,10 +8,26 @@
     "start": "next start",
     "lint": "next lint"
   },
+  "prisma": {
+    "seed": "ts-node --compiler-options {\"module\":\"CommonJS\"} prisma/seed.ts"
+  },
   "dependencies": {
     "@clerk/nextjs": "^6.10.4",
     "@prisma/client": "^6.3.0",
+    "@radix-ui/number": "^1.1.0",
+    "@radix-ui/primitive": "^1.1.1",
+    "@radix-ui/react-collection": "^1.1.1",
+    "@radix-ui/react-compose-refs": "^1.1.1",
+    "@radix-ui/react-context": "^1.1.1",
+    "@radix-ui/react-dialog": "^1.1.5",
+    "@radix-ui/react-direction": "^1.1.0",
+    "@radix-ui/react-portal": "^1.1.3",
+    "@radix-ui/react-scroll-area": "^1.2.2",
+    "@radix-ui/react-select": "^2.1.5",
     "@radix-ui/react-slot": "^1.1.1",
+    "@react-email/components": "^0.0.32",
+    "@stripe/react-stripe-js": "^3.1.1",
+    "@stripe/stripe-js": "^5.6.0",
     "@tanstack/react-table": "^8.20.6",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
@@ -21,8 +37,13 @@
     "prisma": "^6.3.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
+    "resend": "^4.1.1",
     "shadcn": "^2.3.0",
-    "tailwind-merge": "^3.0.1"
+    "sonner": "^1.7.3",
+    "stripe": "^17.6.0",
+    "svix": "^1.45.1",
+    "tailwind-merge": "^3.0.1",
+    "zustand": "^5.0.3"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
@@ -34,6 +55,7 @@
     "postcss": "^8",
     "tailwindcss": "^3.4.17",
     "tailwindcss-animate": "^1.0.7",
-    "typescript": "^5"
+    "ts-node": "^10.9.2",
+    "typescript": "^5.7.3"
   }
 }

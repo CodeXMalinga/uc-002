@@ -1,34 +1,32 @@
+"use client"
+
 import Link from "next/link"
-import { UserButton, SignInButton, SignedIn, SignedOut } from "@clerk/nextjs"
+import { UserButton, SignInButton, useUser } from "@clerk/nextjs"
+import { CartButton } from "@/components/ui/cart-button"
 
-export function NavBar() {
+export default function Navbar() {
+  const { isSignedIn } = useUser()
+
   return (
-    <nav className="fixed top-0 w-full bg-white/80 backdrop-blur-md z-50 border-b">
+    <nav className="fixed top-0 w-full bg-white border-b z-50">
       <div className="container mx-auto px-4 h-16 flex items-center justify-between">
-        {/* Logo/Store Name */}
-        <Link href="/" className="font-playfair text-2xl text-[#283044]">
-          The Fashion Store.
-        </Link>
+        <div className="flex items-center space-x-4">
+          <Link href="/" className="text-xl font-bold">
+            The Fashion Store.
+          </Link>
+        </div>
 
-        {/* Auth Buttons */}
-        <div className="flex items-center gap-4">
-          <SignedIn>
-            <UserButton 
-              afterSignOutUrl="/"
-              appearance={{
-                elements: {
-                  avatarBox: "w-10 h-10"
-                }
-              }}
-            />
-          </SignedIn>
-          <SignedOut>
+        <div className="flex items-center space-x-6">
+          {isSignedIn && <CartButton />}
+          {isSignedIn ? (
+            <UserButton afterSignOutUrl="/" />
+          ) : (
             <SignInButton mode="modal">
-              <button className="bg-[#283044] text-white px-4 py-2 rounded-md hover:opacity-90 transition-opacity font-montserrat">
+              <button className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors">
                 Sign In
               </button>
             </SignInButton>
-          </SignedOut>
+          )}
         </div>
       </div>
     </nav>

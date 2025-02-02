@@ -20,7 +20,7 @@ export async function PATCH(
     }
 
     const body = await req.json()
-    const { status, estimatedDelivery } = body
+    const { status } = body
 
     const order = await prisma.order.update({
       where: {
@@ -28,13 +28,46 @@ export async function PATCH(
       },
       data: {
         status,
-        estimatedDelivery,
       },
     })
 
     return NextResponse.json(order)
   } catch (error) {
     console.error('[ORDER_PATCH]', error)
+    return new NextResponse("Internal error", { status: 500 })
+  }
+}
+
+export async function GET(
+  req: NextRequest,
+  { params }: RouteParams
+) {
+  try {
+    const { userId } = await auth()
+    if (!userId) {
+      return new NextResponse("Unauthorized", { status: 401 })
+    }
+
+    const order = await prisma.order.findUnique({
+      where: {
+        id: params.orderId,
+      },
+      include: {
+        orderItems: {
+          include: {
+            product: true
+          }
+        }
+      }
+    })
+
+    if (!order) {
+      return new NextResponse("Order not found", { status: 404 })
+    }
+
+    return NextResponse.json(order)
+  } catch (error) {
+    console.error('[ORDER_GET]', error)
     return new NextResponse("Internal error", { status: 500 })
   }
 }

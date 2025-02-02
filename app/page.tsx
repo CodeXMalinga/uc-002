@@ -1,5 +1,6 @@
 import Image from "next/image"
-import { NavBar } from "./components/nav-bar"
+import  NavBar  from "./components/nav-bar"
+import Link from 'next/link'
 
 export default function Home() {
   return (
@@ -19,12 +20,18 @@ export default function Home() {
               Experience seamless tracking for your favorite t-shirt collections.
             </p>
             <div className="flex gap-4">
-              <button className="bg-[#283044] text-white px-6 py-3 rounded-md hover:opacity-90 transition-opacity text-lg font-montserrat">
+            <Link 
+                href="/dashboard" 
+                className="border-2 border-[#283044] text-[#283044] px-6 py-3 rounded-md hover:bg-[#283044] hover:text-white transition-colors text-lg font-montserrat"
+              >
                 Track Your Order
-              </button>
-              <button className="border-2 border-[#283044] text-[#283044] px-6 py-3 rounded-md hover:bg-[#283044] hover:text-white transition-colors text-lg font-montserrat">
+              </Link>
+              <Link 
+                href="/shop" 
+                className="border-2 border-[#283044] text-[#283044] px-6 py-3 rounded-md hover:bg-[#283044] hover:text-white transition-colors text-lg font-montserrat"
+              >
                 Shop Now
-              </button>
+              </Link>
             </div>
           </div>
 
